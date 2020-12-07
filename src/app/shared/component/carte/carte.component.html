@@ -1,0 +1,29 @@
+<div>
+    <h1 class='displayflex'> treasureMapp</h1>
+
+    <app-input-upload class='displayflex margin' (change)=valueFile($event)></app-input-upload>
+    <div id='idCarte'>
+        <div class='displayflex' *ngFor='let x of map'>
+
+
+            <div *ngFor='let case of x'>
+                <div class='case'> {{case.valeur}} </div>
+                <!--<app-case></app-case>-->
+            </div>
+            <br>
+        </div>
+        <div>
+            <div class='displayflex'>Actions restante:</div>
+            <div *ngFor='let aventurier of aventuriers'>
+                <div class='displayflex'>
+                    <span>{{aventurier.nom}} : </span><span>{{aventurier.seqMouv}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='displayflex'>
+        <button (click)='pas()'>continuer</button>
+        <button (click)='downloadFinal()'>download</button>
+    </div>
+
+</div>
