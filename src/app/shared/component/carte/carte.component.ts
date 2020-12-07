@@ -9,10 +9,6 @@ import { Orientation } from '../../models/orientation.enum';
 import { MontagneComponent } from '../montagne/montagne.component';
 import { InputUploadComponent } from '../input-upload/input-upload.component';
 
-/*export const NUMEROCASETOKEN = new InjectionToken<number>('num');
-export const VALEURCASETOKEN = new InjectionToken<number>('valeur');
-export const NUMEROSTEPTOKEN = new InjectionToken<number>('numeroEtapeHero');
-*/
 
 @Component({
   selector: 'app-carte',
@@ -213,7 +209,15 @@ export class CarteComponent implements OnInit {
             this.cptAvancer++;
           }
         }
-        aventurier.mouvement(this);
+        // prevent  overmap
+        if (aventurier.x < this.map.length || aventurier.x > -1 || aventurier.y < this.map[0].length || aventurier.y > -1) {
+          console.log("aventurier", aventurier, this.map[0].length)
+          aventurier.mouvement(this);
+        } else {
+          // en cas d'overmap on retire l'action actuelle de la liste pour pouvoir finir
+          aventurier.seqMouv = aventurier.seqMouv.substring(1);
+
+        }
 
         // dans les cas ou il tourne on ne fait rien
         if (mouvInProgress != 'A') {
@@ -264,6 +268,7 @@ export class CarteComponent implements OnInit {
     // recupere la taille de séquence de l'aventurier le plus grand et verifie si elle est a zero
     // si c'est le cas la partie est fini
     let maxPas = Math.max(...this.aventuriers.map(x => x.seqMouv.length));
+    console.log("maxpas:", maxPas)
     this.cptPas++
 
     if (maxPas == 0) {
@@ -310,8 +315,6 @@ export class CarteComponent implements OnInit {
 
       // triggers the click event
       fileLink.click();
-      //const url =
-      //window.open(url);
 
       this.mapRecreation(this.tradMaptoInstruction());
     } else {

@@ -16,7 +16,8 @@
             <div class='displayflex'>Actions restante:</div>
             <div *ngFor='let aventurier of aventuriers'>
                 <div class='displayflex'>
-                    <span>{{aventurier.nom}} : </span><span>{{aventurier.seqMouv}}</span>
+                    <span>{{aventurier.nom}} : {{aventurier.seqMouv}} direction:
+                        {{aventurier.orientation}} nbTresors : {{aventurier.tresorCollect}}</span>
                 </div>
             </div>
         </div>

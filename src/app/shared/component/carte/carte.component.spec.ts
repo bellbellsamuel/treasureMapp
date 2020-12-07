@@ -165,8 +165,6 @@ describe('CarteComponent', () => {
     // permet de simuler la requete et sa réponse qui sont appelé dans le constructeur, il est nécessaire d'avoir le fichier rendu à la lecture...
     req[0].flush(fileContent);
 
-    let posXBeforepas = component.aventuriers[0].x;
-    let posYBeforepas = component.aventuriers[0].y;
 
     component.pas()
 
@@ -184,7 +182,6 @@ describe('CarteComponent', () => {
     req[0].flush(fileContent);
 
     //au 4e pas on avance sur un trésor donc trésor found est appelé
-    let beforeFindTresor = component.tresors
 
     let beforeherocollectTresorFound = 0
     let nbtresor1 = component.tresors[0].nbTresor
@@ -192,17 +189,16 @@ describe('CarteComponent', () => {
 
     component.pas()
     expect(component.aventuriers[0].y).toEqual(2)
+    // premier tresor trouvé
 
     component.pas()
     expect(component.aventuriers[0].y).toEqual(3)
     expect(component.aventuriers[0].tresorCollect).toEqual(beforeherocollectTresorFound + 1)
-
-    // premier tresor trouvé
-
-    component.pas()
-
+    //on tourne
     component.pas()
     //deuxieme trésor trouver
+
+    component.pas()
 
 
     expect(component.aventuriers[0].tresorCollect).toEqual(beforeherocollectTresorFound + 2)
@@ -259,11 +255,67 @@ describe('CarteComponent', () => {
       component.pas()
     }
 
-
-
     expect(oldX).toEqual(component.aventuriers[0].x)
     expect(oldY).toEqual(component.aventuriers[0].y)
   })
+
+  it("aventurier avantage indiana should have thee tresor", () => {
+    const req = httpMock.match(fileUrl);
+
+    fileUrl = '/assets/instructionMapAventurier.txt'
+    let fileContent3 = 'C​ - 3 - 4\n' +
+      'T​ - 1 - 2 - 1\n' +
+      'A​ - Indiana - 1 - 1 - S - A\n' +
+      'A​ - Bob - 1 - 3 - N - A'
+
+    // permet de simuler la requete et sa réponse qui sont appelé dans le constructeur, il est nécessaire d'avoir le fichier rendu à la lecture...
+    req[0].flush(fileContent3);
+
+    // quand tout la séquences de mouvement de l'aventurier est vide
+    // quand il y a plusieur aventurier aussi
+    component.pas()
+
+    expect(component.aventuriers[0].nom).toBe('Indiana')
+    expect(component.aventuriers[0].tresorCollect).toBe(1)
+
+    expect(component.aventuriers[1].nom).toBe('Bob')
+    expect(component.aventuriers[1].tresorCollect).toBe(0)
+
+  })
+  it('aventurier location should be at end', () => {
+    const req = httpMock.match(fileUrl);
+
+    fileUrl = '/assets/instructionMapAventurier.txt'
+    let fileContent4 = 'C​ - 3 - 4\n' +
+      'A​ - Indiana - 1 - 1 - S - AAAA\n' +
+      'A​ - Bob - 2 - 1 - S - AAAA\n' +
+      'A​ - Zamasu - 1 - 2 - N - AAAAA\n' +
+      'A​ - Mario - 2 - 2 - N - AAAA\n';
+    req[0].flush(fileContent4);
+
+    // recuperer les position de chaque héro dans une liste
+    let listePositionBefore = component.aventuriers.map(x => [x.x, x.y])
+    while (!component.finish) {
+      component.pas()
+    }
+
+    //finir la partie
+    expect(component.finish).toBeTruthy()
+
+    // les héro ne devrait pas avoir bouger allant tous les un vers les autres
+
+    let listePositionAfter = component.aventuriers.map(x => [x.x, x.y])
+    let cpt = -1;
+    for (let pos of listePositionBefore) {
+      cpt++;
+      expect(pos[0]).toBe(listePositionAfter[cpt][0])
+      expect(pos[1]).toBe(listePositionAfter[cpt][1])
+    }
+
+
+  })
+
+
 
   it('aventurier location should be at end', () => {
     const req = httpMock.match(fileUrl);
@@ -279,13 +331,9 @@ describe('CarteComponent', () => {
       component.pas()
     }
 
-
-
     // le premier pas est un avancer vers le sud donc
     expect(component.aventuriers[0].y).toEqual(3)
     expect(component.aventuriers[0].x).toEqual(0)
-
-
 
   })
 

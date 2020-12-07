@@ -1,0 +1,5 @@
+C​ - 3 - 4 
+A​ - Indiana - 1 - 1 - S - AAAA
+A​ - Bob - 2 - 1 - S - AAAA
+A​ - Zamasu - 1 - 2 - N - AAAAA
+A​ - Mario - 2 - 2 - N - AAAA

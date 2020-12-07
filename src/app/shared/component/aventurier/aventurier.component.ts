@@ -106,7 +106,6 @@ export class AventurierComponent implements OnInit {
   }
 
   annulerAvancer() {
-    console.log("annuler avancé");
     switch (this.orientation) {
       case Orientation.Nord: {
         this.y += 1;
@@ -135,9 +134,26 @@ export class AventurierComponent implements OnInit {
 
         this.Avancer();
 
-        if (carte.map[this.y][this.x].valeur.indexOf('M') != -1) {
+
+        // on évite les conflit avec les autres
+        // l'ordre de priorité est assuré carte la liste des aventuriers
+        // de la carte est ordonner par rapport à l'ordre d'apparition
+        for (let other of carte.aventuriers) {
+          if (other.nom == this.nom) {
+            // il s'agit du même héro rien à check
+            console.log("coucouself")
+          } else {
+            if (other.y == this.y && other.x == this.x) {
+              this.annulerAvancer()
+              console.log('annuler avancer autre héro')
+              break;
+            }
+          }
+        }
+        // eviter d'avancer sur une montagne
+        if (carte.map[this.y][this.x].valeur[0].indexOf('M') != -1) {
           this.annulerAvancer()
-          console.log('annul avanceer')
+          console.log('annul avancer montagne')
           break;
         }
         let newNbTresor = 0;

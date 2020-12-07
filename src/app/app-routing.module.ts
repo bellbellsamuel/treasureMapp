@@ -5,7 +5,6 @@ import { CarteComponent } from './shared/component/carte/carte.component';
 
 const routes: Routes = [
   { path: '', loadChildren: './shared/shared.module#SharedModule' },
-
 ];
 
 @NgModule({
