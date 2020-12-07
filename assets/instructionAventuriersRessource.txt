@@ -1,0 +1,4 @@
+C​ - 3 - 4 
+T​ - 1 - 2 - 1
+A​ - Indiana - 1 - 1 - S - AAAA
+A​ - Bob - 1 - 3 - N - AAAA
