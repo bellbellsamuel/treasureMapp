@@ -121,12 +121,13 @@ export class CarteComponent implements OnInit {
   }
 
   instructionCarte(arg1: number, arg2: number) {
-    let num: number;
+    let num: number = 0;
     for (let i: number = 0; i < arg2; i++) {
       let ligne: CaseComponent[] = []
       for (let y: number = 0; y < arg1; y++) {
-        num = i + y;
-        let cases: CaseComponent = new CaseComponent(num, '.', -1); // -1 le héro n'est jamùais passé
+        let cases: CaseComponent = new CaseComponent(num, '.', -1);
+        num = num + 1
+        // -1 le héro n'est jamùais passé
         ligne.push(cases)
       }
       this.map.push(ligne);
