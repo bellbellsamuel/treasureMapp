@@ -101,8 +101,6 @@ export class CarteComponent implements OnInit {
   }
 
   instruction(type: string, arg1: any, arg2: any, arg3: any, arg4: any, arg5: any) {
-    //console.log('type=', type, typeof (type), 'T', typeof ('T'), 'arg1=', arg1, 'arg2=', arg2, 'arg3=', arg3, 't' == 't', type === "T", type.normalize() === 'T'.normalize())
-    //console.log(escape(type), escape(type.replace(/\u200B/g, '')));
     /*le text lu est différent escape(type) rend quelques chose différent T%u200B vs T par exemple*/
     if (type == 'C') {
       this.instructionCarte(Number(arg1), Number(arg2));
@@ -111,7 +109,6 @@ export class CarteComponent implements OnInit {
       this.instructionMontagne(Number(arg1), Number(arg2));
     }
     if (type == 'T') {
-      console.log(arg3)
       this.instructionTresor(Number(arg1), Number(arg2), Number(arg3));
     }
     if (type == 'A') {
@@ -132,7 +129,6 @@ export class CarteComponent implements OnInit {
       }
       this.map.push(ligne);
     }
-    console.log(this.map)
   }
 
   instructionMontagne(y: number, x: number) {
@@ -170,8 +166,6 @@ export class CarteComponent implements OnInit {
   }
 
   pas() {
-
-
     for (let aventurier of this.aventuriers) {
       // l'aventurier ne fait plus rien si il n'a plus d'action a produire
       if (aventurier.seqMouv.length != 0) {
@@ -212,7 +206,6 @@ export class CarteComponent implements OnInit {
         }
         // prevent  overmap
         if (aventurier.x < this.map.length || aventurier.x > -1 || aventurier.y < this.map[0].length || aventurier.y > -1) {
-          console.log("aventurier", aventurier, this.map[0].length)
           aventurier.mouvement(this);
         } else {
           // en cas d'overmap on retire l'action actuelle de la liste pour pouvoir finir
@@ -269,14 +262,12 @@ export class CarteComponent implements OnInit {
     // recupere la taille de séquence de l'aventurier le plus grand et verifie si elle est a zero
     // si c'est le cas la partie est fini
     let maxPas = Math.max(...this.aventuriers.map(x => x.seqMouv.length));
-    console.log("maxpas:", maxPas)
     this.cptPas++
 
     if (maxPas == 0) {
       this.finish = true;
       this.cptPas = 0
       this.cptAvancer = 0;
-
     }
 
   }

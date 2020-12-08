@@ -9,17 +9,14 @@ import { Output } from '@angular/core';
 export class InputUploadComponent implements OnInit {
   @Output() fileV = new EventEmitter();
   fileToUpload;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   envoiFichier(event) {
     var files = event.srcElement.files;
-    console.log(files);
     this.fileToUpload = files.item(0);
-
-
     this.fileV.emit(this.fileToUpload);
 
   }
